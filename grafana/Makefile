@@ -1,15 +1,15 @@
 .PHONY: grafana
 grafana:
-	docker-compose --profile grafana up
+	COMPOSE_PROFILE=grafana docker-compose up
 
 .PHONY: grafana-stop
 grafana-stop:
-	docker-compose --profile grafana stop
+	COMPOSE_PROFILE=grafana docker-compose stop
 
 .PHONY: node-exporter
 node-exporter:
-	docker-compose --profile node-exporter up
+	COMPOSE_PROFILE=node-exporter docker-compose  up
 
 .PHONY: node-exporter-stop
 node-exporter-stop:
-	docker-compose --profile node-exporter stop
+	COMPOSE_PROFILE=node-exporter docker-compose stop

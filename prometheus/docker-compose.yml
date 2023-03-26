@@ -7,10 +7,13 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
     profiles: ['nginx']
+    networks:
+      network-internal:
   prometheus:
     image: prom/prometheus:latest
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./alertmanager:/etc/prometheus/alertmanager/
       - prometheus_data:/prometheus
     command:
       - --config.file=/etc/prometheus/prometheus.yml
@@ -23,11 +26,20 @@ services:
     depends_on:
       - node-exporter
       - nginx-exporter
+    networks:
+      network-external:
+      network-internal:
   node-exporter:
     image: prom/node-exporter
     ports:
       - 9100:9100
+    command:
+      - --collector.textfile.directory=/app
+    volumes:
+      - .:/app
     profiles: ['node-exporter']
+    networks:
+      network-internal:
   nginx-exporter:
     image: nginx/nginx-prometheus-exporter
     ports:
@@ -38,5 +50,35 @@ services:
     profiles: ['nginx-exporter']
     depends_on:
       - nginx
+    networks:
+      network-internal:
+  size-dir-exporter:
+    build:
+      context: .
+      dockerfile: cron.Dockerfile
+    volumes:
+      - ./cron_filesize:/etc/cron.d/cron_filesize
+      - .:/app
+    profiles: ['size-exporter']
+    networks:
+      network-internal:
+  alertmanager:
+    image: prom/alertmanager
+    volumes:
+      - ./alertmanager/config.yml:/etc/alertmanager/config.yml
+    ports:
+      - 9093:9093
+    command:
+      - "--config.file=/etc/alertmanager/config.yml"
+    networks:
+      network-external:
+    profiles: ['alertmanager']
 volumes:
   prometheus_data:
+
+networks:
+  network-internal:
+  network-external:
+    name: grafana_prometheus_network
+    external: true
+  

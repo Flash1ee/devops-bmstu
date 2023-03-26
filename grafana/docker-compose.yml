@@ -8,6 +8,8 @@ services:
     volumes:
       - grafana_data:/var/lib/grafana
     profiles: ['grafana']
+    networks:
+      network-external:
   node-exporter:
     image: prom/node-exporter
     ports:
@@ -15,3 +17,8 @@ services:
     profiles: ['node-exporter']
 volumes:
   grafana_data:
+
+networks:
+  network-external:
+    name: grafana_prometheus_network
+    external: true

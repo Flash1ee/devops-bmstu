@@ -1,0 +1,14 @@
+groups:
+- name: Nginx status
+  rules:
+  - alert: Нет активных инстансов NGINX
+    # Condition for alerting
+    expr: absent(nginx_up)
+    for: 30s
+    # Annotation - additional informational labels to store more information
+    annotations:
+      title: 'Нет активных интансов NGINX'
+      description: 'В течение 1 минуты не обнаружены активные инстансы nginx. Пройдите на {{.ExternalURL}}'
+    # Labels - additional labels to be attached to the alert
+    labels:
+      severity: 'critical'
