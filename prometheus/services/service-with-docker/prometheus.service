@@ -1,0 +1,16 @@
+[Unit]
+Description=Prometheus
+Requires=docker.service
+After=docker.service
+
+[Service]
+RemainAfterExit=yes
+StandardOutput=file:/var/log/prom.log
+StandardError=file:/var/log/prom.log
+WorkingDirectory=/home/user/metrics/devops-bmstu/prometheus
+ExecStartPre=/usr/bin/docker-compose --env ./prom.env -f docker-compose.prom.yml stop
+ExecStart=/usr/bin/docker-compose --env ./prom.env -f docker-compose.prom.yml up -d
+ExecStop=/usr/bin/docker-compose --env ./prom.env -f docker-compose.prom.yml stop
+
+[Install]
+WantedBy=multi-user.target

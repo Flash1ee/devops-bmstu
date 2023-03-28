@@ -1,11 +1,9 @@
 [Unit]
-Description=Grafana Service
-Requires=docker.service
-After=docker.service
+Description=Grafana Agent
 
 [Service]
-Type=oneshot
 RemainAfterExit=yes
-WorkingDirectory=/path/to/docker-compose/
-ExecStart=/usr/local/bin/docker-compose up -d
-ExecStop=/usr/local/bin/docker-compose down
+ExecStart=/usr/bin/grafana server
+
+[Install]
+WantedBy=multi-user.target

@@ -31,8 +31,8 @@ services:
       network-internal:
   node-exporter:
     image: prom/node-exporter
-    ports:
-      - 9100:9100
+    # ports:
+      # - 9100:9100
     command:
       - --collector.textfile.directory=/app
     volumes:
