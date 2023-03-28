@@ -1,0 +1,10 @@
+[Unit]
+ Description=Prometheus Node Exporter
+ After=network.target
+
+[Service]
+ Type=simple
+ ExecStart=/bin/sh -c '/usr/bin/nginx-prometheus-exporter --nginx.scrape-uri=http://localhost/status --web.telemetry-path=/metrics'
+
+[Install]
+ WantedBy=multi-user.target

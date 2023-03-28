@@ -1,0 +1,14 @@
+[Unit]
+Description=Prometheus
+After=node_exporter node_exporter
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/prometheus \
+    --config.file=/etc/prometheus/prometheus.yml \
+    --storage.tsdb.path=/prometheus \
+    --storage.tsdb.retention.time=240h \
+    --storage.tsdb.retention.size=4GB \
+
+[Install]
+WantedBy=multi-user.target

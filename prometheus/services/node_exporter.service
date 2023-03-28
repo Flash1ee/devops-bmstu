@@ -1,0 +1,10 @@
+[Unit]
+ Description=Prometheus Node Exporter
+ After=network.target
+
+ [Service]
+ Type=simple
+ ExecStart=/bin/sh -c '/usr/bin/node_exporter --collector.textfile.directory=/home/user/metrics/devops-bmstu/prometheus'
+
+ [Install]
+ WantedBy=multi-user.target

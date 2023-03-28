@@ -1,0 +1,24 @@
+version: '3'
+services:
+  grafana:
+    image: grafana/grafana:latest
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    profiles: ['grafana']
+    networks:
+      network-external:
+  node-exporter:
+    image: prom/node-exporter
+    ports:
+      - 9100:9100
+    profiles: ['node-exporter']
+volumes:
+  grafana_data:
+
+networks:
+  network-external:
+    name: grafana_prometheus_network
+    external: true

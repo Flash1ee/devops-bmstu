@@ -1,0 +1,15 @@
+route:
+  receiver: 'telegram'
+  group_interval: 1s
+  repeat_interval: 1m
+  routes:
+    - receiver: 'telegram'
+      match:
+        severity: critical
+
+receivers:
+- name: 'telegram'
+  telegram_configs:
+  - chat_id: 0
+    bot_token: ""
+    parse_mode: ''

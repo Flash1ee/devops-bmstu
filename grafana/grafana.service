@@ -1,0 +1,9 @@
+[Unit]
+Description=Grafana Agent
+
+[Service]
+RemainAfterExit=yes
+ExecStart=/usr/bin/grafana server
+
+[Install]
+WantedBy=multi-user.target
